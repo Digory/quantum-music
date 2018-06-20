@@ -22,5 +22,5 @@ Once measured, just like a classical bit, a qubit has a definite value; but, whe
 WHAT THE PROGRAM DOES:
 
 Handily, you can download the results of your experiment in a CSV file. This program evaluates the results of any 5-qubit experiment in that form. A 5-qubit system, once measured, will give a result of one out of thirty-two combinations, just like 5 normal bits. The program assigns each combination a MIDI code value in the range 60-91. It ranks each combination in order of likelihood based upon the results of the quantum calculation. Then, it creates beautiful (or not-so-beautiful) music by playing each note in decreasing order of probability.
-
-The attached CSV file was an experiment ran on the IBM Q5 Tenerife (ibmqx4). The QASM file describes the experiment in the QASM language (what the Quantum Experience uses). It starts with all qubits having a value of 0. Then, they are each placed in a superposition state with use of a Hadamard gate ( https://en.wikipedia.org/wiki/Quantum_logic_gate#Hadamard_(H)_gate ) and measured. 
+ 
+The attached CSV file was an experiment ran on the IBM Q5 Tenerife (ibmqx4). The QASM file describes the experiment in the QASM language (what the Quantum Experience uses). It starts with all qubits having a value of 0. Then, they are each placed in a superposition state with use of a Hadamard gate ( https://en.wikipedia.org/wiki/Quantum_logic_gate#Hadamard_(H)_gate ) and measured.
