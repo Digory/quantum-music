@@ -15,39 +15,16 @@ public class DrawPanel extends JPanel{
     
     private String getMusicNotes(){
         /*
-        This method is for figuring out what the note version (you know: "C#"
-        or whatever) of the MIDI decimal value is; so that we can display this
-        to the user.
+        This method is for figuring out what the note name (you know: "C#" or
+        whatever) of the MIDI decimal value is; so that we can display this to 
+        the user.
         */
         StringBuilder musicNotes = new StringBuilder();
+        String[] notes = new String[] {"C","C#","D","D#","E","F","F#","G","G#","A","A#","B"};
         for (Integer elements : decimals){
             int note = elements %= 12;
-            switch(note){
-                case 0: musicNotes.append("C ");
-                break;
-                case 1: musicNotes.append("C# ");
-                break;
-                case 2: musicNotes.append("D ");
-                break;
-                case 3: musicNotes.append("D# ");
-                break;
-                case 4: musicNotes.append("E ");
-                break;
-                case 5: musicNotes.append("F ");
-                break;
-                case 6: musicNotes.append("F# ");
-                break;
-                case 7: musicNotes.append("G ");
-                break;
-                case 8: musicNotes.append("G# ");
-                break;
-                case 9: musicNotes.append("A ");
-                break;
-                case 10: musicNotes.append("A# ");
-                break;
-                case 11: musicNotes.append("B ");
-                break;
-        }}
+            musicNotes.append(notes[note]+" ");
+            }
         return musicNotes.toString();
     }
     
