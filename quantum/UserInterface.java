@@ -1,5 +1,6 @@
 package quantum;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,18 +23,20 @@ private List<Integer> decimals;
     @Override
     public void run() {
         JFrame frame = new JFrame("Quantum Music");
+        frame.setBackground(Color.BLACK);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
- 
+        frame.setVisible(true);
         createComponents(frame.getContentPane());
         frame.pack();
-        frame.setVisible(true);
-
+        createSynthesizer();
     }
 
     private void createComponents(Container container) {
         DrawPanel panel = new DrawPanel(decimals);
         container.add(panel);
-
+    }
+    
+    private void createSynthesizer(){
         Synthesizer midiSynth;
     try {
         midiSynth = MidiSystem.getSynthesizer();
@@ -53,7 +56,6 @@ private List<Integer> decimals;
     } catch (MidiUnavailableException ex) {
         Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
     }
-
     }
 
 }
