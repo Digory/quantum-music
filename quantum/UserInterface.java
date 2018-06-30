@@ -2,6 +2,7 @@ package quantum;
 
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,11 +11,13 @@ import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class UserInterface implements Runnable{
 private JFrame frame;
-private List<Integer> decimals;
+private final List<Integer> decimals;
 
     public UserInterface(List<Integer> decimals){
         this.decimals = decimals;
@@ -28,11 +31,18 @@ private List<Integer> decimals;
         frame.setVisible(true);
         createComponents(frame.getContentPane());
         frame.pack();
-        createSynthesizer();
+  
     }
 
     private void createComponents(Container container) {
-        DrawPanel panel = new DrawPanel(decimals);
+        DrawPanel panel = new DrawPanel(decimals);   
+        JButton startButton = new JButton(new AbstractAction("Play") {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createSynthesizer();
+            }
+        });
+        panel.add(startButton);
         container.add(panel);
     }
     
