@@ -58,7 +58,7 @@ public class UserInterface implements Runnable {
             panel is told the location (i.e. where we are in the list of notes)
             with use of the ControllerEventListener interface, so that it can 
             display the current note to the user.
-             */
+            */
             int location = 0;
             for (int elements : MIDICodes) {
                 track.add(new MidiEvent(new ShortMessage(ShortMessage.CONTROL_CHANGE, 0, 0, location), (3 * location)));

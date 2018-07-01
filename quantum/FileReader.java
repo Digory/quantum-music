@@ -37,7 +37,7 @@ public class FileReader {
         than once, hence are stored in a List<String> object. The values are 
         in the form of binary strings, but have to be cleaned up (apostrophes 
         and commas removed).
-         */
+        */
         probabilities = new ArrayList<>();
         results = new HashMap<>();
 
@@ -64,7 +64,7 @@ public class FileReader {
         then go through the HashMap using our probability keys; calculating the
         decimal versions of the binary values. We put these decimals in another
         list to be used as MIDI codes.
-         */
+        */
         Collections.sort(probabilities);
         Collections.reverse(probabilities);
 

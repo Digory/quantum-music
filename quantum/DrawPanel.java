@@ -24,14 +24,19 @@ public class DrawPanel extends JPanel implements ControllerEventListener {
 
     @Override
     public void paintComponent(Graphics graphics) {
+        this.graphics = graphics;
+        /*
+        We don't paint the first note until the user has clicked the button.
+        If the user wishes to play the sequence again we cover over the note 
+        graphics that were played last time.
+        */
         if (location == -1) {
             return;
-            /*
-            ^ So that it doesn't paint the first note before the play button is
-            clicked.
-             */
         }
-        this.graphics = graphics;
+        if (location == 0) {
+            graphics.setColor(Color.BLACK);
+            graphics.fillRect(0, 130, 960, 50);
+        }
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, 100, 40);
         graphics.fillRect(435, 200, 100, 40);
@@ -52,7 +57,7 @@ public class DrawPanel extends JPanel implements ControllerEventListener {
         This method is for figuring out what the note name (you know: "C#" or
         whatever) of the MIDI decimal value is; so that we can display this to 
         the user.
-         */
+        */
         String[] notes = new String[]{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
         return notes[MIDICodes.get(location) % 12];
     }
