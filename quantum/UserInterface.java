@@ -21,10 +21,12 @@ import javax.swing.JFrame;
 public class UserInterface implements Runnable {
 
     private JFrame frame;
-    private final List<Integer> decimals;
+    private final List<Integer> MIDICodes;
+    private final List<String> binaryStrings;
 
-    public UserInterface(List<Integer> decimals) {
-        this.decimals = decimals;
+    public UserInterface(List<Integer> MIDICodes, List<String> binaryStrings) {
+        this.MIDICodes = MIDICodes;
+        this.binaryStrings = binaryStrings;
     }
 
     @Override
@@ -39,15 +41,15 @@ public class UserInterface implements Runnable {
     }
 
     private void createComponents(Container container) {
-        DrawPanel panel = new DrawPanel(decimals);
-        Sequencer sequencer = createSequencer(panel);
-        JButton startButton = new JButton(new AbstractAction("Play") {
+        DrawPanel panel = new DrawPanel(MIDICodes, binaryStrings);        
+        JButton playButton = new JButton(new AbstractAction("Play") {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Sequencer sequencer = createSequencer(panel);
                 sequencer.start();
             }
         });
-        panel.add(startButton);
+        panel.add(playButton);
         container.add(panel);
     }
 
@@ -56,15 +58,15 @@ public class UserInterface implements Runnable {
             Sequencer sequencer = MidiSystem.getSequencer();
             Sequence sequence;
             sequence = new Sequence(Sequence.PPQ, 3);
-            Track track = sequence.createTrack();           
+            Track track = sequence.createTrack();
             /* 
             We go through the decimal notes and add them to the track. The 
             panel is told the location (i.e. where we are in the list of notes)
             with use of the ControllerEventListener interface, so that it can 
             display the current note to the user.
-            */
-            int location = 0;            
-            for (int elements : decimals) {
+             */
+            int location = 0;
+            for (int elements : MIDICodes) {
                 track.add(new MidiEvent(new ShortMessage(ShortMessage.CONTROL_CHANGE, 0, 0, location), (3 * location)));
                 track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, 0, elements + 36, elements + 36), (3 * location)));
                 track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, 0, elements + 36, elements + 36), (3 * location) + 3));

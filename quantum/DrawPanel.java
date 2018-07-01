@@ -9,39 +9,55 @@ import javax.sound.midi.ControllerEventListener;
 import javax.sound.midi.ShortMessage;
 import javax.swing.JPanel;
 
-public class DrawPanel extends JPanel implements ControllerEventListener{
+public class DrawPanel extends JPanel implements ControllerEventListener {
 
-    private final List<Integer> decimals;
+    private final List<Integer> MIDICodes;
+    private final List<String> binaryStrings;
     private int location = -1;
 
-    public DrawPanel(List<Integer> decimals) {
-        this.decimals = decimals;
+    public DrawPanel(List<Integer> MIDICodes, List<String> binaryStrings) {
+        this.MIDICodes = MIDICodes;
+        this.binaryStrings = binaryStrings;
     }
 
-    private String getMusicNote() {
+    @Override
+    public void paintComponent(Graphics g) {
+        if (location == -1) {
+            return;
+            /*
+            ^ So that it doesn't paint the first note before the play button is
+            clicked.
+             */
+        }
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 60, 40);
+        g.fillRect(435, 200, 100, 40);
+        paintNoteGraphics(g);
+        paintBinaryGraphics(g);
+    }
+
+    private void paintNoteGraphics(Graphics g) {
+        g.setColor(Color.CYAN);
+        g.fillOval((30 * location), 135, 30, 30);
+        g.setFont(new Font("default", Font.BOLD, 15));
+        g.setColor(Color.BLACK);
+        g.drawString(findMusicNote(), (30 * location + 10), 155);
+    }
+
+    private String findMusicNote() {
         /*
         This method is for figuring out what the note name (you know: "C#" or
         whatever) of the MIDI decimal value is; so that we can display this to 
         the user.
          */
         String[] notes = new String[]{"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
-        return notes[decimals.get(location)%12];
+        return notes[MIDICodes.get(location) % 12];
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        if (location == -1){
-            return; 
-            /*
-            ^ So that it doesn't paint the first note before the play button is
-            pushed.
-            */
-        }
-        g.setColor(Color.CYAN);
-        g.fillOval((30*location), 135, 30, 30);
-        g.setFont(new Font("default", Font.BOLD, 15));
-        g.setColor(Color.BLACK);
-        g.drawString(getMusicNote(), (30*location+10), 155);
+    private void paintBinaryGraphics(Graphics g) {
+        g.setColor(Color.RED);
+        g.setFont(new Font("default", Font.BOLD, 30));
+        g.drawString(binaryStrings.get(location), 435, 230);
     }
 
     @Override
