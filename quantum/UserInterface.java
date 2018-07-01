@@ -62,8 +62,8 @@ public class UserInterface implements Runnable {
             int location = 0;
             for (int elements : MIDICodes) {
                 track.add(new MidiEvent(new ShortMessage(ShortMessage.CONTROL_CHANGE, 0, 0, location), (3 * location)));
-                track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, 0, elements + 36, elements + 36), (3 * location)));
-                track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, 0, elements + 36, elements + 36), (3 * location) + 3));
+                track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_ON, 0, elements + 60, elements + 60), (3 * location)));
+                track.add(new MidiEvent(new ShortMessage(ShortMessage.NOTE_OFF, 0, elements + 60, elements + 60), (3 * location) + 3));
                 location++;
             }
             sequencer.open();
