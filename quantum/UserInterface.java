@@ -2,7 +2,6 @@ package quantum;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,7 +13,6 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
-import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
@@ -23,6 +21,7 @@ public class UserInterface implements Runnable {
     private JFrame frame;
     private final List<Integer> MIDICodes;
     private final List<String> binaryStrings;
+    private Sequence sequence;
 
     public UserInterface(List<Integer> MIDICodes, List<String> binaryStrings) {
         this.MIDICodes = MIDICodes;
@@ -31,7 +30,7 @@ public class UserInterface implements Runnable {
 
     @Override
     public void run() {
-        JFrame frame = new JFrame("Quantum Music");
+        frame = new JFrame("Quantum Music");
         frame.setBackground(Color.BLACK);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         createComponents(frame.getContentPane());
@@ -41,22 +40,17 @@ public class UserInterface implements Runnable {
     }
 
     private void createComponents(Container container) {
-        DrawPanel panel = new DrawPanel(MIDICodes, binaryStrings);        
-        JButton playButton = new JButton(new AbstractAction("Play") {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Sequencer sequencer = createSequencer(panel);
-                sequencer.start();
-            }
-        });
-        panel.add(playButton);
+        DrawPanel panel = new DrawPanel(MIDICodes, binaryStrings);
+        Sequencer sequencer = createSequencer(panel);
+        JButton playPauseButton = new JButton("Play/Pause");
+        playPauseButton.addActionListener(new PlayPauseListener(sequencer, sequence));
+        panel.add(playPauseButton);
         container.add(panel);
     }
 
     private Sequencer createSequencer(DrawPanel panel) {
         try {
             Sequencer sequencer = MidiSystem.getSequencer();
-            Sequence sequence;
             sequence = new Sequence(Sequence.PPQ, 3);
             Track track = sequence.createTrack();
             /* 
@@ -73,7 +67,6 @@ public class UserInterface implements Runnable {
                 location++;
             }
             sequencer.open();
-            sequencer.setSequence(sequence);
             sequencer.addControllerEventListener(panel, new int[]{0});
             return sequencer;
         } catch (InvalidMidiDataException | MidiUnavailableException ex) {

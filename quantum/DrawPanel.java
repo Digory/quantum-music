@@ -13,15 +13,17 @@ public class DrawPanel extends JPanel implements ControllerEventListener {
 
     private final List<Integer> MIDICodes;
     private final List<String> binaryStrings;
-    private int location = -1;
+    private Graphics graphics;
+    private int location;
 
     public DrawPanel(List<Integer> MIDICodes, List<String> binaryStrings) {
         this.MIDICodes = MIDICodes;
         this.binaryStrings = binaryStrings;
+        location = -1;
     }
 
     @Override
-    public void paintComponent(Graphics g) {
+    public void paintComponent(Graphics graphics) {
         if (location == -1) {
             return;
             /*
@@ -29,19 +31,20 @@ public class DrawPanel extends JPanel implements ControllerEventListener {
             clicked.
              */
         }
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, 60, 40);
-        g.fillRect(435, 200, 100, 40);
-        paintNoteGraphics(g);
-        paintBinaryGraphics(g);
+        this.graphics = graphics;
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0, 0, 100, 40);
+        graphics.fillRect(435, 200, 100, 40);
+        paintNoteGraphics();
+        paintBinaryGraphics();
     }
 
-    private void paintNoteGraphics(Graphics g) {
-        g.setColor(Color.CYAN);
-        g.fillOval((30 * location), 135, 30, 30);
-        g.setFont(new Font("default", Font.BOLD, 15));
-        g.setColor(Color.BLACK);
-        g.drawString(findMusicNote(), (30 * location + 10), 155);
+    private void paintNoteGraphics() {
+        graphics.setColor(Color.CYAN);
+        graphics.fillOval((30 * location), 135, 30, 30);
+        graphics.setFont(new Font("default", Font.BOLD, 15));
+        graphics.setColor(Color.BLACK);
+        graphics.drawString(findMusicNote(), (30 * location + 10), 155);
     }
 
     private String findMusicNote() {
@@ -54,10 +57,10 @@ public class DrawPanel extends JPanel implements ControllerEventListener {
         return notes[MIDICodes.get(location) % 12];
     }
 
-    private void paintBinaryGraphics(Graphics g) {
-        g.setColor(Color.RED);
-        g.setFont(new Font("default", Font.BOLD, 30));
-        g.drawString(binaryStrings.get(location), 435, 230);
+    private void paintBinaryGraphics() {
+        graphics.setColor(Color.RED);
+        graphics.setFont(new Font("default", Font.BOLD, 30));
+        graphics.drawString(binaryStrings.get(location), 435, 230);
     }
 
     @Override
