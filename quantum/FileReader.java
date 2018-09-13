@@ -20,7 +20,7 @@ public class FileReader {
 
     public FileReader(File file, Scanner reader) throws FileNotFoundException {
         this.file = file;
-        this.reader = new Scanner(file);
+        this.reader = reader;
         MIDICodes = new ArrayList<>();
         binaryStrings = new ArrayList<>();
         readFile();

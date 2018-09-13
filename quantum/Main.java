@@ -9,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
         File file = new File("src/quantum/distribution.csv");
-        Scanner reader = new Scanner(System.in);
+        Scanner reader = new Scanner(file);
         FileReader fileReader = new FileReader(file, reader);
         SwingUtilities.invokeLater(new UserInterface(fileReader.getMIDICodes(), fileReader.getBinaryStrings()));
     }
